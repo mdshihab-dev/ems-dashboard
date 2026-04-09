@@ -75,11 +75,55 @@ export const createEmployee =  async (req,res)=>{
 // PUT /api/employees/:id
 
 export const updateEmployee =  async (req,res)=>{
+  try {
+    const id = req.params
+    const {firstname, lastname, email,password, phone, position, role, basicSalary,allowances, deductions, status, bio, department} = req.body
+    
+   const employee = await Employee.findById(id)
+   if(!employee) res.status(404).json({error : 'Employee not found'})
 
+   await Employee.findByIdAndUpdate(id ,{
+        firstname, 
+        lastname,
+        email,
+        phone, 
+        position,
+        department: department || "Engineering",
+        basicSalary: Number(basicSalary) || 0,
+        allowances: Number(allowances) || 0,
+        deductions: Number(deductions) || 0,
+        status: status || "ACTIVE",
+        bio: bio || "",
+    })
+
+    // update user record
+    const userUpdate = {email, password}
+    if(role) userUpdate.role = role 
+    await User.findByIdAndUpdate(Employee.userId, userUpdate)
+
+    return res.json({success: true})
+
+    } catch (error) {
+    if (error.code === 11000) {
+        return res.status(400).json({ error: "Email already exists" })
+    }
+    return res.status(500).json({ error: "Failed to update employee" });
+}
 }
 // dolete employee
 // DELETE /api/employees/:id
 
 export const deleteEmployee =  async (req,res)=>{
+    try {
+        const id = req.params
+        const employee = await Employee.findById(id)
+        if(!employee) res.status(404).json({error : 'Employee not found'})
 
+        employee.isDeleted = true
+        employee.status = "INACTIVE"
+        await employee.save()
+        return res.json({success: true})
+    } catch (error) {
+        return res.status(500).json({ error: "Failed to delete employee" });
+    }
 }
