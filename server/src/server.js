@@ -4,6 +4,9 @@ const app = express()
 const cors = require('cors')
 const multer = require('multer')
 const connectDB = require('./config/connectDB')
+const authRouter = require('./routes/authRoutes')
+const employeeRouter = require('./routes/employeeRoutes')
+const profileRouter = require('./routes/profileRoutes')
 const { PORT , ORIGIN} = process.env
 
 app.use(express.json())
@@ -13,12 +16,13 @@ app.use(cors({
     credentials: true
 }))
 
-// Database connetion is now pause 
+// Database connetion is currently pause 
 // connectDB() 
 
-app.get('/' , (req,res)=> {
-    res.json({message : "hello world"})
-})
+// Routes
+app.use('api/auth',authRouter)
+app.use('api/employee',employeeRouter)
+app.use('api/profile',profileRouter)
 
 app.listen(PORT , ()=> {
     console.log(`server is running on port ${PORT}`)
