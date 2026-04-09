@@ -1,22 +1,20 @@
-@import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
-
 @import "tailwindcss";
-
 @import "tw-animate-css";
-
 @import "shadcn/tailwind.css";
 
+@import "@fontsource-variable/outfit";
 @import "@fontsource-variable/inter";
 
 @custom-variant dark (&:is(.dark *));
 
-*{
-  font-family: "Poppins", sans-serif;
-}
-
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: 'Inter Variable', sans-serif;
+  --color-brand-primary: oklch(0.28 0.06 250);
+  --color-brand-secondary: oklch(0.42 0.09 240);
+  --color-brand-accent: oklch(0.64 0.13 210);
+
+  --font-sans: 'Outfit Variable', 'Inter Variable', sans-serif;
+  --font-heading: 'Outfit Variable', sans-serif;
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -58,20 +56,25 @@
 }
 
 :root {
+
+  --primary: oklch(0.28 0.06 250); 
+  --primary-foreground: oklch(0.985 0 0);
+
+
+  --secondary: oklch(0.42 0.09 240);
+  --secondary-foreground: oklch(0.985 0 0);
+
+  --accent: oklch(0.64 0.13 210);
+  --accent-foreground: oklch(1 0 0);
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
@@ -130,9 +133,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-gray-50 text-foreground;
   }
+
   html {
     @apply font-sans;
   }
