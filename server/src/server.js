@@ -11,6 +11,7 @@ const profileRouter = require('./routes/profileRoutes')
 const attendanceRouter = require('./routes/attendenceRouter')
 const leaveRouter = require('./routes/leaveRoutes')
 const payslipRouter = require('./routes/payslipRouter')
+const dashboardRouter = require('./routes/dashboardRouter')
 const { PORT , ORIGIN} = process.env
 
 app.use(express.json())
@@ -31,6 +32,7 @@ app.use('api/profile',profileRouter)
 app.use('api/attendence',attendanceRouter)
 app.use('api/leave',leaveRouter)
 app.use('api/payslip',payslipRouter)
+app.use('api/dashboard',dashboardRouter)
 
 app.listen(PORT , ()=> {
     console.log(`server is running on port ${PORT}`)
