@@ -1,10 +1,10 @@
-import Employee from "../models/Employee"
-import User from "../models/User"
+const Employee = require("../models/Employee")
+const User = require("../models/User")
 // Get employees 
 // GET /api/employees
 
 
-export const getEmployees =  async (req,res)=>{
+ const getEmployees =  async (req,res)=>{
     try {
     const {department} = req.query
     const where = {}
@@ -30,7 +30,7 @@ export const getEmployees =  async (req,res)=>{
 // create employee
 // POST /api/employees
 
-export const createEmployee =  async (req,res)=>{
+ const createEmployee =  async (req,res)=>{
     try {
     const {firstname, lastname, email,password, phone, position, role, basicSalary, joinDate ,allowances, deductions, status, bio, department} = req.body
     
@@ -74,7 +74,7 @@ export const createEmployee =  async (req,res)=>{
 // update employee
 // PUT /api/employees/:id
 
-export const updateEmployee =  async (req,res)=>{
+ const updateEmployee =  async (req,res)=>{
   try {
     const id = req.params
     const {firstname, lastname, email,password, phone, position, role, basicSalary,allowances, deductions, status, bio, department} = req.body
@@ -113,7 +113,7 @@ export const updateEmployee =  async (req,res)=>{
 // dolete employee
 // DELETE /api/employees/:id
 
-export const deleteEmployee =  async (req,res)=>{
+ const deleteEmployee =  async (req,res)=>{
     try {
         const id = req.params
         const employee = await Employee.findById(id)
@@ -126,4 +126,11 @@ export const deleteEmployee =  async (req,res)=>{
     } catch (error) {
         return res.status(500).json({ error: "Failed to delete employee" });
     }
+}
+
+module.exports = {
+    getEmployees,
+    createEmployee,
+    updateEmployee,
+    deleteEmployee
 }

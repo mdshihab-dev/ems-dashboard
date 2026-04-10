@@ -1,4 +1,4 @@
-export const DEPARTMENTS = [
+ const DEPARTMENTS = [
   "Engineering", 
   "Human Resources", 
   "Marketing", 
@@ -10,3 +10,5 @@ export const DEPARTMENTS = [
   "Product Management", 
   "Design"
 ];
+
+module.exports = DEPARTMENTS

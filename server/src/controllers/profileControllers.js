@@ -2,7 +2,7 @@ const Employee = require('../models/Employee')
 
 // Get profile
 // GET /api/profile
-export const getProfile = async (req, res) => {
+ const getProfile = async (req, res) => {
     try {
         const session = req.session;
         const employee = await Employee.findOne({ userId: session.userId })
@@ -25,7 +25,7 @@ export const getProfile = async (req, res) => {
 
 // Update profile
 // PUT /api/profile
-export const updateProfile = async (req, res) => {
+ const updateProfile = async (req, res) => {
     try {
         const session = req.session;
         const employee = await Employee.findOne({ userId: session.userId })
@@ -45,4 +45,9 @@ export const updateProfile = async (req, res) => {
     } catch (error) {
        return res.status(500).json({error : "Failed to update profile"})
     }
+}
+
+module.exports = {
+    getProfile,
+    updateProfile
 }

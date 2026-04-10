@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-export const protect = (req, res, next) => {
+ const protect = (req, res, next) => {
     try {
         const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -18,9 +18,16 @@ export const protect = (req, res, next) => {
     }
 }
 
-export const protectAdmin = (req, res, next) => {
+
+
+ const protectAdmin = (req, res, next) => {
     if (req?.session?.role !== "ADMIN") {
         return res.status(403).json({ error: "Admin access required" });
     }
     next()
+}
+
+module.exports = {
+    protect,
+    protectAdmin
 }

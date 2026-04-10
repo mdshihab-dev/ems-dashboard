@@ -1,9 +1,9 @@
-import User from "../models/User"
+const User = require("../models/User")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 // POST /api/auth/login
-export const login = async (req,res)=>{
+const login = async (req,res)=>{
     try {
         const {email,password,role} = req.body
         if(!email || !password){
@@ -43,16 +43,18 @@ export const login = async (req,res)=>{
 }
 
 
+
 // Get session for employee and admin
 // GET /api/auth/session
-export const session = (req, res) => {
+ const session = (req, res) => {
     const session = req.session;
     return res.json({ user: session })
 }
 
+
 // Change password for employee and admin
 // POST /api/auth/change-password
-export const changePassword = async (req, res) => {
+ const changePassword = async (req, res) => {
     try {
     const session = req.session;
     const { currentPassword, newPassword } = req.body;
@@ -73,3 +75,9 @@ export const changePassword = async (req, res) => {
    return res.status(500).json({error: "Failed to change password"});
 }
 }
+
+module.exports = {
+    login,
+    session,
+    changePassword
+};

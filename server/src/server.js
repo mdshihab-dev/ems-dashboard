@@ -3,13 +3,16 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const multer = require('multer')
+const cookieParser = require('cookie-parser')
 const connectDB = require('./config/connectDB')
 const authRouter = require('./routes/authRoutes')
 const employeeRouter = require('./routes/employeeRoutes')
 const profileRouter = require('./routes/profileRoutes')
+const attendanceRouter = require('./routes/attendenceRouter')
 const { PORT , ORIGIN} = process.env
 
 app.use(express.json())
+app.use(cookieParser())
 app.use(multer().none())
 app.use(cors({
     origin : ORIGIN || "http://localhost:5173",
@@ -23,6 +26,7 @@ app.use(cors({
 app.use('api/auth',authRouter)
 app.use('api/employee',employeeRouter)
 app.use('api/profile',profileRouter)
+app.use('api/attendence',attendanceRouter)
 
 app.listen(PORT , ()=> {
     console.log(`server is running on port ${PORT}`)
