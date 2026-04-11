@@ -9,7 +9,7 @@ const LoginLeftSide = () => {
 
                     {/* ========= Logo ========= */}
                     <div className="w-fit text-gray-200">
-                        <img className="w-20 mx-auto mb-1 " src={logo} alt="logo" />
+                        <img className="w-20 mx-auto mb-1 rounded-[8px]" src={logo} alt="logo" />
                         <h3 className="md:text-xl font-bold">Staff<span className="font-normal"> Central</span></h3>
                     </div>
 
