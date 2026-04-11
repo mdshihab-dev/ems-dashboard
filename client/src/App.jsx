@@ -1,20 +1,21 @@
 import { Toaster } from "@/components/ui/sonner"
 import { Navigate, Route, Routes } from "react-router-dom"
 import CommonLayout from "./components/layout/CommonLayout"
-import DashboardPage from "./pages/DashboardPage"
-import LeavePage from "./pages/LeavePage"
-import PayslipsPage from "./pages/PayslipsPage"
-import SettingsPage from "./pages/SettingsPage"
-import EmployeesPage from "./pages/EmployeesPage"
-import PrintPayslipPage from "./pages/PrintPayslipPage"
-import LoginForm from "./components/login/LoginForm"
+import DashboardPage from "./pages/Dashboard"
+import LeavePage from "./pages/Leave"
+import PayslipsPage from "./pages/Payslip"
+import SettingsPage from "./pages/Settings"
+import EmployeesPage from "./pages/Employees"
+import PrintPayslipPage from "./pages/PrintPayslip"
 import LoginPage from "./pages/Login"
+import LoginForm from "./components/login/LoginForm"
+import AttendancePage from "./pages/Attendence"
 
 function App() {
 
   return (
     <>
-      {/* <Toaster /> */}
+      <Toaster />
 
       <Routes>
         <Route path="/login" element={<LoginPage />} />
@@ -25,12 +26,13 @@ function App() {
         <Route element={<CommonLayout />} >
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/employees" element={<EmployeesPage />} />
+          <Route path="/attendance" element={<AttendancePage />} />
           <Route path="/leave" element={<LeavePage />} />
           <Route path="/payslips" element={<PayslipsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Route>
 
-        <Route path="/print/payslips/:id" element={<PrintPayslipPage />} />
+        <Route path="/print/payslip/:id" element={<PrintPayslipPage />} />
 
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

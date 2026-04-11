@@ -1,4 +1,4 @@
-// import logo from '@/assets/images/teamtracker_white.svg'
+import logo from '@/assets/images/teamtracker_white.svg'
 
 const LoginLeftSide = () => {
     return (
@@ -9,8 +9,7 @@ const LoginLeftSide = () => {
 
                     {/* ========= Logo ========= */}
                     <div className="w-fit text-gray-200">
-                        {/* <img className="w-20 mx-auto -mb-2 opacity-85" src={logo} alt="logo" /> */}
-                        Logo 
+                        <img className="w-20 mx-auto -mb-2 opacity-85" src={logo} alt="logo" />
                         <h3 className="md:text-xl font-bold">Team<span className="font-normal">Track</span></h3>
                     </div>
 

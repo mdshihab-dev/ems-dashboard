@@ -76,7 +76,6 @@ const LoginForm = ({ role, title, subtitle }) => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="border border-gray-300 focus:outline-brand-accent rounded-sm p-2.5 w-full"
                 placeholder="john@example.com" />
             </div>
 
@@ -91,7 +90,7 @@ const LoginForm = ({ role, title, subtitle }) => {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="border border-gray-300 focus:outline-brand-accent rounded-sm p-2.5 w-full placeholder:translate-y-1 pr-11" placeholder="********" />
+                  className="placeholder:translate-y-1 pr-11" placeholder="********" />
 
                 <button
                   type="button"
@@ -106,7 +105,7 @@ const LoginForm = ({ role, title, subtitle }) => {
             {/* ========== Submit btn ========== */}
             <button type="submit"
               disabled={status.loading}
-              className="w-full py-3 bg-linear-to-r from-brand-accent/90 to-brand-secondary/90 text-gray-200 rounded-md text-sm font-semibold hover:from-brand-accent hover:to-brand-secondary disabled:opacity-50 transition-all duration-200 shadow-lg shadow-brand-primary/40 active:scale-[0.98] flex justify-center items-center cursor-pointer">
+              className="w-full py-3! btn-primary flex justify-center items-center cursor-pointer">
               {status.loading ? <Loader2Icon className='animate-spin size-4 mr-2' /> : 'Log in'}
             </button>
 
