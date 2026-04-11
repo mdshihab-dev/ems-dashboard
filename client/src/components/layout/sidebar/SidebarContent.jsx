@@ -1,4 +1,4 @@
-import logo from '@/assets/images/teamtracker_white.svg'
+import logo from '../../../assets/images/logo.png'
 import { FileTextIcon } from 'lucide-react';
 import { SettingsIcon } from 'lucide-react';
 import { XIcon } from 'lucide-react';
@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 const SidebarContent = ({ pathname, username, setMobileOpen }) => {
 
     // ========= Nav items data ========
-    const role = "" || "EMPLOYEE";
+    const role = "ADMIN" 
 
     const navItems = [
         { name: "Dashboard", href: "/dashboard", icon: LayoutGridIcon },
@@ -37,11 +37,11 @@ const SidebarContent = ({ pathname, username, setMobileOpen }) => {
                     <div className='flex items-center gap-3'>
                         {/* Logo */}
                         <div>
-                            <img className='w-12' src={logo} alt="logo" />
+                            <img className='w-12 rounded-[8px]' src={logo} alt="logo" />
                         </div>
                         {/* Project info */}
                         <div>
-                            <h5 className='font-semibold text-sm text-gray-200 tracking-wide'>TeamTracker</h5>
+                            <h5 className='font-semibold text-sm text-gray-200 tracking-wide'>Staff Central</h5>
                             <p className='text-xs text-gray-300'>Employee Management System</p>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 import { dummyLeaveData } from "@/assets/dummyData/dummyData"
-import LeaveApplyModal from "@/components/leave/LeaveApplyModal"
-import LeaveHistory from "@/components/leave/LeaveHistory"
+import LeaveApplyModal from "../components/leave/LeaveApplyModel"
+import LeaveHistory from "../components/leave/LeaveHistory"
 import Loading from "@/components/shared/Loading"
 import { ThermometerIcon, UmbrellaIcon, PalmtreeIcon, PlusIcon } from "lucide-react"
 import { useEffect, useState, useCallback } from "react"
