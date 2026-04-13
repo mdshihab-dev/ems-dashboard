@@ -25,7 +25,7 @@ async function registerAdmin() {
         }
         const admin = await User.create({
         email: process.env.ADMIN_EMAIL,
-        password: hashedPassword,
+        password: TemporaryPassword,
         role: "ADMIN",
     });
 

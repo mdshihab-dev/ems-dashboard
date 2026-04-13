@@ -1,3 +1,4 @@
+const { inngest } = require("../inngest/index.js");
 const Attendance = require("../models/Attendence.js");
 const Employee = require("../models/Employee.js");
 
@@ -41,6 +42,14 @@ if (!existing) {
     checkIn: now,
     status: isLate ? "LATE" : "PRESENT",
   });
+
+  await inngest.send({
+    name: 'employee/check-out',
+    data: {
+      employeeId: employee._id,
+      attendanceId: attendence._id
+    }
+  })
 
   return res.json({success: true,type: "CHECK_IN",data: attendance});
 } 

@@ -1,5 +1,6 @@
 const LeaveApplication = require("../models/LeaveApplication");
 const Employee = require("../models/Employee");
+const { inngest } = require("../inngest");
 
 const createLeave = async (req, res) => {
   try {
@@ -41,6 +42,13 @@ const createLeave = async (req, res) => {
       reason,
       status: "PENDING",
     });
+
+    await inngest.send({
+      name: 'leave/pending',
+      data: {
+        leaveApplicationId: leave._id
+      }
+    })
 
     return res.json({ success: true, data: leave });
 
