@@ -2,7 +2,7 @@ import logo from '../../assets/images/logo.png'
 
 const LoginLeftSide = () => {
     return (
-        <div className="hidden md:flex w-1/2 overflow-hidden border-r bg-linear-to-br from-brand-primary via-brand-secondary to-brand-accent text-gray-100">
+        <div className="hidden md:flex w-1/2 overflow-hidden bg-brand-primary text-gray-100">
 
             <div className="flex flex-col items-center justify-center p-12 lg:p-20 w-full h-full">
                 <div>

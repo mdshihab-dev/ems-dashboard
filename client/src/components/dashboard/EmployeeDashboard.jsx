@@ -42,7 +42,7 @@ const EmployeeDashboard = ({ data }) => {
                 {cards.map((card, index) => (
                     <div key={index} className="card card-hover p-5 sm:p-6 relative overflow-hidden group flex items-center justify-between">
                         <div>
-                            <div className="absolute left-0 top-0 bottom-0 w-1 rounded-r-full bg-brand-secondary group-hover:bg-brand-accent/80" />
+                            <div className="absolute left-0 top-0 bottom-0 w-1 rounded-r-full bg-brand-primary group-hover:bg-brand-accent/80" />
                             <p className="text-sm font-medium text-gray-700">{card.title}</p>
                             <p className="text-2xl font-bold text-gray-900 mt-1">{card.value}</p>
                         </div>

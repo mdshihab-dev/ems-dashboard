@@ -32,12 +32,12 @@ const Sidebar = () => {
             <div onClick={handleMobileSidebar} className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-40"></div>
 
             {/* ============ Sidebar Desktop ============ */}
-            <aside className="hidden lg:flex flex-col h-full w-68 bg-linear-to-b from-brand-primary via-brand-primary to-brand-secondary text-gray-200 shrink-0 border-r border-gray-300">
+            <aside className="hidden lg:flex flex-col h-full w-68 bg-brand-primary text-gray-200 shrink-0 border-r border-gray-300">
                 <SidebarContent pathname={pathname} username={username}/>
             </aside>
 
             {/* ============ Sidebar Mobile ============ */}
-            <aside className={`lg:hidden fixed inset-y-0 left-0 w-72 bg-linear-to-b from-brand-primary via-brand-primary to-brand-secondary text-gray-200 z-50 flex flex-col transform transition-transform duration-300 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+            <aside className={`lg:hidden fixed inset-y-0 left-0 w-72 bg-linear-to-b bg-brand-primary text-gray-200 z-50 flex flex-col transform transition-transform duration-300 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                 <SidebarContent pathname={pathname} username={username} setMobileOpen={setMobileOpen}/>
             </aside>
         </>
