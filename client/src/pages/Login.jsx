@@ -1,10 +1,16 @@
 import LoginLeftSide from "@/components/login/LoginLeftSide"
+import Loading from "@/components/shared/Loading"
+import { useAuth } from "@/context/AuthContext"
 import { ArrowRightIcon } from "lucide-react"
 import { UserIcon } from "lucide-react"
 import { ShieldIcon } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 
 const LoginPage = () => {
+  const {user,loading} = useAuth()
+
+    if(loading) return <Loading/>
+    if(user) return <Navigate to='/dashboard'/>
 
   const portalOptions = [
     {

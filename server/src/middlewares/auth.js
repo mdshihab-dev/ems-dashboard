@@ -13,6 +13,7 @@ const jwt = require('jsonwebtoken')
             return res.status(401).json({ error: "Unauthorized" });
         }
         req.session = session
+        next()
     } catch (error) {
          return res.status(401).json({ error: "Unauthorized" });
     }

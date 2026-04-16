@@ -1,16 +1,18 @@
 const User = require("../models/User")
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken")
 
 // POST /api/auth/login
 const login = async (req,res)=>{
+    
     try {
         const {email,password,role} = req.body
+        
         if(!email || !password){
             return res.status(400).json({error : "Email & password are required"})
         }
 
-        const user = User.findOne({email})
+        const user = await User.findOne({email})
         if(!user) {
             return res.status(401).json({error : "Invalid credentials"})
         }
@@ -23,7 +25,7 @@ const login = async (req,res)=>{
             return res.status(401).json({ error: "Not authorized as employee" });
         }
 
-        const isValid = bcrypt.compare(password,user.password)
+        const isValid = await bcrypt.compare(password, user.password)
         if(!isValid){
             return res.status(401).json({error : "Invalid credentials"})
         }
@@ -37,7 +39,7 @@ const login = async (req,res)=>{
 
         return res.json({user: payload, token })
     } catch (error) {
-        console.error('Login error')   
+        console.error('Login error:', error)   
         return res.status(500).json({error: 'Login failed'})
     }
 }

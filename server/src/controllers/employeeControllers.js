@@ -44,25 +44,28 @@ const User = require("../models/User")
         role: role || "EMPLOYEE"
     })
 
+
    const employee = await Employee.create({
         userId: user._id,
         firstname, 
         lastname,
         email,
+        password,
         phone, 
         position,
         department: department || "Engineering",
         basicSalary: Number(basicSalary) || 0,
         allowances: Number(allowances) || 0,
         deductions: Number(deductions) || 0,
-        joinDate: new Date(joinDate),
+        joinDate: new Date(),
         status: status || "ACTIVE",
         bio: bio || "",
     })
 
     return res.status(201).json({success: true , employee})
 
-    } catch (error) {
+    }
+     catch (error) {
     if (error.code === 11000) {
         return res.status(400).json({ error: "Email already exists" })
     }
@@ -71,7 +74,7 @@ const User = require("../models/User")
 }
 }
 
-// update employee
+// update employees
 // PUT /api/employees/:id
 
  const updateEmployee =  async (req,res)=>{

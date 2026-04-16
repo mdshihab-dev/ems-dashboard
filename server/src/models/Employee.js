@@ -1,7 +1,7 @@
-const bcrypt = require('bcryptjs')
-
+const bcrypt = require("bcryptjs")
 const mongoose =  require('mongoose')
 const DEPARTMENTS = require('../constants/departments')
+
 const EmployeeSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -12,7 +12,7 @@ const EmployeeSchema = new mongoose.Schema({
     firstname: { type: String, required: [true , 'First name is required'] },
     lastname: { type: String, required: [true, 'Last name is required']},
     email: { type: String, required:[true, 'Email is required'], unique: true },
-    password: { type: String, required: [true, 'Password number is required'] },
+    password: { type: String, required: [true, 'Password is required'] },
     phone: { type: String, required: [true, 'Phone number is required'] },
     position: { type: String, required: [true, 'Position is required'] },
     role: { type: String, enum: ["ADMIN", "EMPLOYEE"], default: "EMPLOYEE" },
@@ -27,13 +27,14 @@ const EmployeeSchema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-const Employee = mongoose.models.Employee || mongoose.model("Employee", EmployeeSchema)
 
-module.exports = Employee
-
- EmployeeSchema.pre('save', async function(next){
+// encryt password before storing in database 
+EmployeeSchema.pre('save', async function(next){
     if(this.isModified('password')) {
         this.password = await bcrypt.hash(this.password, 12)
     }
-    next()
- })
+    next
+})
+
+const Employee = mongoose.models.Employee || mongoose.model("Employee", EmployeeSchema)
+module.exports = Employee

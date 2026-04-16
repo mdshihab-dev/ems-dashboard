@@ -1,3 +1,4 @@
+import { useAuth } from '@/context/AuthContext';
 import logo from '../../../assets/images/logo.png'
 import { FileTextIcon } from 'lucide-react';
 import { SettingsIcon } from 'lucide-react';
@@ -8,10 +9,11 @@ import { DollarSignIcon } from 'lucide-react';
 import { CalendarIcon } from 'lucide-react';
 import { UserIcon } from 'lucide-react';
 import { LayoutGridIcon } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SidebarContent = ({ pathname, username, setMobileOpen }) => {
-
+    const {logout} = useAuth()
+    const navigate = useNavigate()
     // ========= Nav items data ========
     const role = "ADMIN" 
 
@@ -26,7 +28,8 @@ const SidebarContent = ({ pathname, username, setMobileOpen }) => {
     ];
 
     const handleLogout = () => {
-        window.location.href = '/login'
+        logout()
+        navigate('/login')
     }
 
     return (

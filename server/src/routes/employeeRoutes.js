@@ -5,7 +5,8 @@ const employeeRouter = Router()
 
 
 employeeRouter.get('/', protect,protectAdmin, getEmployees)
-employeeRouter.post('/',protect,protectAdmin, createEmployee)
+// employeeRouter.post('/',protect,protectAdmin, createEmployee)
+employeeRouter.post('/', createEmployee)
 employeeRouter.put('/:id',protect,protectAdmin, updateEmployee)
 employeeRouter.delete('/:id',protect,protectAdmin, deleteEmployee)
 
