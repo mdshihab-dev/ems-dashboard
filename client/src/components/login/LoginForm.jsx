@@ -11,7 +11,9 @@ import { toast } from "sonner";
 const LoginForm = ({ role, title, subtitle }) => {
 
   const [formData, setFormData] = useState({ email: "", password: ""});
-  const [status, setStatus] = useState({ loading: false, error: "", showPassword: false});{}
+  const [loading, setLoading] = useState(false);
+  const [error,setError] = useState('')
+  const [showPassword,setShowPassword] = useState(false)
   const {login} = useAuth()
   const navigate = useNavigate()
 
@@ -23,15 +25,13 @@ const LoginForm = ({ role, title, subtitle }) => {
     });
   };
 
-  // ========= Password hide/show func =========
-  const handleShowPassword = () => {
-    setStatus((prev) => ({ ...prev, showPassword: !prev.showPassword }))
-  }
+
 
   // ========= Submit func =========
   const handleSubmit = (e) => {
     e.preventDefault()
-    setStatus(...status, status.loading = true, status.error = '')
+    setLoading(true),
+    setError('')
     try {
       login({...formData, role})
       navigate('/dashboard')
@@ -39,7 +39,7 @@ const LoginForm = ({ role, title, subtitle }) => {
       toast.error(error?.response?.data?.error || 'Login failed!' )
     }
     finally{
-      setStatus(...status, status.loading = false)
+      setLoading(false)
     }
 
 
@@ -65,10 +65,10 @@ const LoginForm = ({ role, title, subtitle }) => {
           </div>
 
           {/* ========== Error State ========== */}
-          {status.error && (
+          {error && (
             <div className="mb-6 p-4 bg-rose-50 border border-rose-200 text-rose-700 text-sm rounded-xl flex items-start gap-3">
               <div className="size-1.5 rounded-full bg-rose-500 mt-1.5 shrink-0" />
-              {status.error}
+              {error}
             </div>
           )}
 
@@ -93,7 +93,7 @@ const LoginForm = ({ role, title, subtitle }) => {
               <div className="relative">
 
                 <input
-                  type={status.showPassword ? 'text' : 'password'}
+                  type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
@@ -102,9 +102,9 @@ const LoginForm = ({ role, title, subtitle }) => {
 
                 <button
                   type="button"
-                  onClick={handleShowPassword}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors">
-                  {status.showPassword ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}
+                  onClick={()=> setShowPassword(!showPassword)}
+                  className="absolute cursor-pointer right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors">
+                  {showPassword ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}
                 </button>
 
               </div>
@@ -112,9 +112,9 @@ const LoginForm = ({ role, title, subtitle }) => {
 
             {/* ========== Submit btn ========== */}
             <button type="submit"
-              disabled={status.loading}
+              disabled={loading}
               className="w-full py-3! btn-primary flex justify-center items-center cursor-pointer">
-              {status.loading ? <Loader2Icon className='animate-spin size-4 mr-2' /> : 'Log in'}
+              {loading ? <Loader2Icon className='animate-spin size-4 mr-2' /> : 'Log in'}
             </button>
 
           </form>

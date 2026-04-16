@@ -6,8 +6,8 @@ import Loading from "../shared/Loading"
 const CommonLayout = () => {
     const {user,loading} = useAuth()
 
-    // if(loading) return <Loading/>
-    // if(!user) return <Navigate to='/login'/>
+    if(loading) return <Loading/>
+    if(!user) return <Navigate to='/login'/>
 
     return (
         <div className="flex h-screen">

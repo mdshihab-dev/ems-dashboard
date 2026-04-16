@@ -20,8 +20,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
 
-        <Route path="/login/admin" element={<LoginForm role='admin' title='Admin Portal' subtitle='Sing in to manage the organization'/>} />
-        <Route path="/login/employee" element={<LoginForm role='employee' title='Employee Portal' subtitle='Sing in to access your account'/>} />
+        <Route path="/login/admin" element={<LoginForm role='ADMIN' title='Admin Portal' subtitle='Sing in to manage the organization'/>} />
+        <Route path="/login/employee" element={<LoginForm role='EMPLOYEE' title='Employee Portal' subtitle='Sing in to access your account'/>} />
 
         <Route element={<CommonLayout />} >
           <Route path="/dashboard" element={<DashboardPage />} />
