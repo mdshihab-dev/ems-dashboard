@@ -14,7 +14,7 @@ const EmployeeCard = ({ employee, onDelete, onEdit }) => {
                     {/* ======= Circle Avatar ======= */}
                     <div className="size-20 rounded-full bg-linear-to-br from-brand-accent/20 to-gray-200 flex items-center justify-center">
                         <span className="text-2xl font-medium text-brand-accent/50">
-                            {employee.firstName[0]}{employee.lastName[0]}
+                            {employee?.firstname[0]}{employee?.lastname[0]}
                         </span>
                     </div>
 

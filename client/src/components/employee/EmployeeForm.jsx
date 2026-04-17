@@ -1,7 +1,9 @@
+import api from "@/api/axios"
 import { DEPARTMENTS } from "@/assets/dummyData/dummyData"
 import { Loader2Icon } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { toast } from "sonner"
 
 const EmployeeForm = ({ initialData, onSuccess, onCancel }) => {
 
@@ -9,9 +11,24 @@ const EmployeeForm = ({ initialData, onSuccess, onCancel }) => {
     const [loading, setLoading] = useState(false)
     const isEditMode = !!initialData
 
-    const handleSubmit = async (e) => {
+     const handleSubmit = async (e) => {
         e.preventDefault()
-        onSuccess()
+        setLoading(true)
+        const formData = new FormData(e.currentTarget)
+        if (isEditMode) {
+            const pwd = formData.get('password')
+            if (!pwd) formData.delete('password')
+        }
+        try {
+            const url = isEditMode ? `/employees/${initialData.id}` : 'employees'
+            const method = isEditMode ? 'put' : 'post'
+            await api[method](url, formData)
+            onSuccess ? onSuccess() : navigate('/employees')
+        } catch (error) {
+            toast.error(error.response?.data?.error || error.message)
+        }finally{
+            setLoading(false)
+        }
     }
 
     return (
@@ -23,11 +40,11 @@ const EmployeeForm = ({ initialData, onSuccess, onCancel }) => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-sm text-gray-700">
                     <div>
                         <label className="block mb-2">First Name</label>
-                        <input type="text" name="firstName" required defaultValue={initialData?.firstName} />
+                        <input type="text" name="firstname" required defaultValue={initialData?.firstname} />
                     </div>
                     <div>
                         <label className="block mb-2">Last Name</label>
-                        <input type="text" name="lastName" required defaultValue={initialData?.lastName} />
+                        <input type="text" name="lastname" required defaultValue={initialData?.lastname} />
                     </div>
                     <div>
                         <label className="block mb-2">Phone Number</label>
@@ -76,7 +93,7 @@ const EmployeeForm = ({ initialData, onSuccess, onCancel }) => {
                     {isEditMode && (
                         <div>
                             <label className="block mb-2">Status</label>
-                            <select name="employmentStatus" defaultValue={initialData?.employmentStatus} >
+                            <select name="status" defaultValue={initialData?.status} >
                                 <option value='ACTIVE'>Active</option>
                                 <option value='INACTIVE'>Inactive</option>
                             </select>

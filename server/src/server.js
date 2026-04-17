@@ -17,8 +17,7 @@ const { inngest, functions } = require("./inngest/index")
 const { PORT , ORIGIN} = process.env
 
 app.use(express.json())
-// app.use(cookieParser())
-// app.use(multer().none())
+app.use(multer().none())
 app.use(cors({
     origin : ORIGIN || "http://localhost:5173",
     credentials: true

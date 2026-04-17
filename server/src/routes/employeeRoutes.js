@@ -11,3 +11,5 @@ employeeRouter.put('/:id',protect,protectAdmin, updateEmployee)
 employeeRouter.delete('/:id',protect,protectAdmin, deleteEmployee)
 
 module.exports = employeeRouter
+
+// 8000/api/employees/

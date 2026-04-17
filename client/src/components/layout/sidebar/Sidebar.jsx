@@ -3,13 +3,23 @@ import { useEffect } from "react"
 import { useState } from "react"
 import { useLocation } from "react-router-dom"
 import SidebarContent from "./SidebarContent"
+import { useAuth } from "@/context/AuthContext"
+import api from "@/api/axios"
 
 const Sidebar = () => {
 
     const { pathname } = useLocation()
     const [username, setUsername] = useState('Mohammad Shihab')
     const [mobileOpen, setMobileOpen] = useState(false)
+    const {user,loading} = useAuth()
 
+    useEffect(()=>{
+        api.get('/profile').then(({data})=>{
+            if(data.firstname) {
+                setUsername(`${data.firstname} ${data.lastname || ''} `.trim())
+            }
+        }).catch(err=>console.log(err))
+    },[])
 
     // ======== Handle mobile sidebar func ========
     const handleMobileSidebar = () => {

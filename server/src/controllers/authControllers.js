@@ -8,6 +8,7 @@ const login = async (req,res)=>{
     try {
         const {email,password,role} = req.body
         
+        
         if(!email || !password){
             return res.status(400).json({error : "Email & password are required"})
         }

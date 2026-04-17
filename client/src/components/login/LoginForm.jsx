@@ -28,12 +28,12 @@ const LoginForm = ({ role, title, subtitle }) => {
 
 
   // ========= Submit func =========
-  const handleSubmit = (e) => {
+  const handleSubmit =  async(e) => {
     e.preventDefault()
     setLoading(true),
     setError('')
     try {
-      login({...formData, role})
+      await login({...formData, role})
       navigate('/dashboard')
     } catch (error) {
       toast.error(error?.response?.data?.error || 'Login failed!' )

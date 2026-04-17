@@ -5,22 +5,24 @@ const User = require("../models/User")
 
 
  const getEmployees =  async (req,res)=>{
+    console.log('i am from get employee for testing',)
     try {
     const {department} = req.query
     const where = {}
     if(department) where.department = department
 
-    const employees = (await Employee.find(where))
-    .toSorted({createdAt: -1})
+    const employees = await Employee.find(where)
+    .sort({createdAt: -1})
     .populate('userId', "email role")
     .lean()
+
 
     const result = employees.map((emp)=>({
         ...emp,
         id: emp._id.toString(),
         user: emp.userId ? {email: emp.userId.email, role : emp.userId.role } : null
     }))
-
+    
     res.status(200).json(result)
     } catch (error) {
         res.status(500).json({error : 'Failed to fetch employees'})
@@ -35,7 +37,7 @@ const User = require("../models/User")
     const {firstname, lastname, email,password, phone, position, role, basicSalary, joinDate ,allowances, deductions, status, bio, department} = req.body
     
     if(!firstname || !lastname || !email || !password){
-        res.status(400).json({error : 'Missing required fields'})
+        return res.status(400).json({error : 'Missing required fields'})
     }
 
     const user = await User.create({
@@ -51,13 +53,14 @@ const User = require("../models/User")
         lastname,
         email,
         password,
+        role: role || "EMPLOYEE",
         phone, 
         position,
         department: department || "Engineering",
         basicSalary: Number(basicSalary) || 0,
         allowances: Number(allowances) || 0,
         deductions: Number(deductions) || 0,
-        joinDate: new Date(),
+        joinDate: joinDate ? new Date(joinDate) : new Date(),
         status: status || "ACTIVE",
         bio: bio || "",
     })
@@ -79,11 +82,11 @@ const User = require("../models/User")
 
  const updateEmployee =  async (req,res)=>{
   try {
-    const id = req.params
+    const {id} = req.params
     const {firstname, lastname, email,password, phone, position, role, basicSalary,allowances, deductions, status, bio, department} = req.body
     
    const employee = await Employee.findById(id)
-   if(!employee) res.status(404).json({error : 'Employee not found'})
+   if(!employee) return res.status(404).json({error : 'Employee not found'})
 
    await Employee.findByIdAndUpdate(id ,{
         firstname, 
@@ -102,7 +105,7 @@ const User = require("../models/User")
     // update user record
     const userUpdate = {email, password}
     if(role) userUpdate.role = role 
-    await User.findByIdAndUpdate(Employee.userId, userUpdate)
+    await User.findByIdAndUpdate(employee.userId, userUpdate)
 
     return res.json({success: true})
 
@@ -118,9 +121,9 @@ const User = require("../models/User")
 
  const deleteEmployee =  async (req,res)=>{
     try {
-        const id = req.params
+        const {id} = req.params
         const employee = await Employee.findById(id)
-        if(!employee) res.status(404).json({error : 'Employee not found'})
+        if(!employee) return res.status(404).json({error : 'Employee not found'})
 
         employee.isDeleted = true
         employee.status = "INACTIVE"

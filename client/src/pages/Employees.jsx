@@ -1,4 +1,5 @@
-import { dummyEmployeeData, DEPARTMENTS } from "@/assets/dummyData/dummyData"
+import api from "@/api/axios"
+import { DEPARTMENTS } from "@/assets/dummyData/dummyData"
 import EmployeeCard from "@/components/employee/EmployeeCard"
 import EmployeeForm from "@/components/employee/EmployeeForm"
 import { Search, Plus, X } from "lucide-react"
@@ -18,18 +19,22 @@ const EmployeesPage = () => {
   })
 
   const fetchEmployees = useCallback(async () => {
-    setLoading(true)
-    setEmployees(dummyEmployeeData.filter((emp) => query.department ? emp.department === query.department : emp))
-    setTimeout(() => {
+    try {
+      const url = query.department !== 'all'  ? `/employees?department=${query.department}` : '/employees'
+      const res = await api.get(url)
+      setEmployees(res.data)
+    } catch (error) {
+      console.log('Failed to fetch employees')
+    }finally{
       setLoading(false)
-    }, 200);
+    }
   }, [query.department])
-
+  
   useEffect(() => {
     fetchEmployees()
   }, [fetchEmployees])
 
-  const filtered = employees.filter((emp) => `${emp.firstName} ${emp.lastName} ${emp.position}`.toLocaleLowerCase().includes(query.search.toLocaleLowerCase()))
+  const filtered = employees.filter((emp) => `${emp.firstname} ${emp.lastname} ${emp.position}`.toLocaleLowerCase().includes(query.search.toLocaleLowerCase()))
 
   const handleInput = (e) => {
     setQuery({ ...query, [e.target.name]: e.target.value })
@@ -44,7 +49,7 @@ const EmployeesPage = () => {
     fetchEmployees()
   }
 
-  const handleCreateSuccess = ()=>{
+  const handleCreateSuccess = () => {
     setShowCreateModal(false)
     fetchEmployees()
   }
@@ -72,7 +77,7 @@ const EmployeesPage = () => {
           </div>
 
           <select name="department" value={query.department} onChange={handleInput} className="max-w-40">
-            <option>All Departments</option>
+            <option value={"all"}>All Departments</option>
             {DEPARTMENTS.map((deptName) => (
               <option key={deptName} value={deptName}>{deptName}</option>
             ))}
@@ -103,7 +108,7 @@ const EmployeesPage = () => {
       {showCreateModal &&
         <div className="fixed bg-black/40 backdrop-blur-sm inset-0 z-50 flex items-start justify-center p-4 overflow-y-auto" onClick={() => setShowCreateModal(false)}>
           <div className="fixed inset-0" />
-         <div className="relative bg-gray-50 rounded-2xl shadow-2xl w-full max-w-3xl my-8 animate-fade-in" onClick={(e) => e.stopPropagation()}>
+          <div className="relative bg-gray-50 rounded-2xl shadow-2xl w-full max-w-3xl my-8 animate-fade-in" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between p-6 pb-0">
               <div>
                 <h2 className="text-lg font-semibold text-gray-900">Add New Employee</h2>

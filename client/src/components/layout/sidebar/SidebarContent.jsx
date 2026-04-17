@@ -1,6 +1,6 @@
 import { useAuth } from '@/context/AuthContext';
 import logo from '../../../assets/images/logo.png'
-import { FileTextIcon } from 'lucide-react';
+import { FileTextIcon, Loader2 } from 'lucide-react';
 import { SettingsIcon } from 'lucide-react';
 import { XIcon } from 'lucide-react';
 import { LogOutIcon } from 'lucide-react';
@@ -12,14 +12,13 @@ import { LayoutGridIcon } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const SidebarContent = ({ pathname, username, setMobileOpen }) => {
-    const {logout} = useAuth()
+    const {user,logout,loading} = useAuth()
     const navigate = useNavigate()
     // ========= Nav items data ========
-    const role = "ADMIN" 
 
     const navItems = [
         { name: "Dashboard", href: "/dashboard", icon: LayoutGridIcon },
-        role === "ADMIN"
+        user?.role === "ADMIN"
             ? { name: "Employees", href: "/employees", icon: UserIcon }
             : { name: "Attendance", href: "/attendance", icon: CalendarIcon },
         { name: "Leave", href: "/leave", icon: FileTextIcon },
@@ -69,7 +68,7 @@ const SidebarContent = ({ pathname, username, setMobileOpen }) => {
                         {/* Name & designation */}
                         <div className='min-w-0'>
                             <p className='text-sm font-medium text-gray-200 truncate'>{username}</p>
-                            <p className='text-xs text-gray-400 truncate'>{role === 'Admin' ? 'Administrator' : 'Employee'}</p>
+                            <p className='text-xs text-gray-400 truncate'>{user?.role === 'ADMIN' ? 'Administrator' : 'Employee'}</p>
                         </div>
                     </div>
                 </div>
@@ -82,7 +81,13 @@ const SidebarContent = ({ pathname, username, setMobileOpen }) => {
 
             {/* ========= Navigation List ========= */}
             <div className="flex-1 px-3 space-y-0.5 overflow-y-auto">
-                {navItems.map((item) => {
+               { loading ? (
+                    <div className='px-3 py-3 flex items-center gap-2 text-slate-500'>
+                        <Loader2 className="animate-spin w-4 h-4" />
+                        <span className="text-sm">Loading...</span>
+                    </div>
+                ) : (
+                    navItems.map((item) => {
                     const isActive = pathname.startsWith(item.href)
                     return (
                         <Link key={item.name} to={item.href} className={`group flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-150 relative ${isActive ? 'bg-brand-accent/20 text-brand-accent' : 'text-gray-300 hover:text-gray-100 hover:bg-gray-700/30'}`}>
@@ -98,7 +103,8 @@ const SidebarContent = ({ pathname, username, setMobileOpen }) => {
                             {isActive && <ChevronRightIcon className='size-3.5 text-brand-accent/50' />}
                         </Link>
                     )
-                })}
+                })
+                )}
             </div>
 
             {/* ========= Logout btn ========= */}
