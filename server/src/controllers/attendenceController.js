@@ -1,4 +1,3 @@
-const { inngest } = require("../inngest/index.js");
 const Attendance = require("../models/Attendence.js");
 const Employee = require("../models/Employee.js");
 
@@ -24,36 +23,43 @@ const clockInOut = async (req, res) => {
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    const now = new Date();
 
-    const existing = await Attendance.findOne({
-    employeeId: employee._id,
-    date: today,
+    let existing = await Attendance.findOne({
+      employeeId: employee._id,
+      date: today,
     });
 
-const now = new Date();
+    if (!existing) {
+      const isLate = now.getHours() >= 9 && now.getMinutes() > 0;
 
-if (!existing) {
-  // Check korche jodi 9:00 AM er por hoy, tahole LATE hobe
-  const isLate = now.getHours() >= 9 && now.getMinutes() > 0;
+      const attendance = await Attendance.findOneAndUpdate(
+        {
+          employeeId: employee._id,
+          date: today,
+        },
+        {
+          $setOnInsert: {
+            employeeId: employee._id,
+            date: today,
+            checkIn: now,
+            status: isLate ? "LATE" : "PRESENT",
+          }
+        },
+        { upsert: true, new: true }
+      );
 
-  const attendance = await Attendance.create({
-    employeeId: employee._id,
-    date: today,
-    checkIn: now,
-    status: isLate ? "LATE" : "PRESENT",
-  });
+      await inngest.send({
+        name: 'employee/check-out',
+        data: {
+          employeeId: employee._id,
+          attendanceId: attendance._id
+        }
+      })
 
-  await inngest.send({
-    name: 'employee/check-out',
-    data: {
-      employeeId: employee._id,
-      attendanceId: attendence._id
-    }
-  })
-
-  return res.json({success: true,type: "CHECK_IN",data: attendance});
-} 
-else if (!existing.checkOut) {
+      return res.json({success: true,type: "CHECK_IN",data: attendance});
+    } 
+    else if (!existing.checkOut) {
   // Check-in time theke current time er parthokkyo ber kora
   const checkInTime = new Date(existing.checkIn).getTime();
   const diffMs = now.getTime() - checkInTime;
@@ -75,17 +81,17 @@ else if (!existing.checkOut) {
     dayType = "Short Day";
   }
 
-  existing.workingHours = workingHours;
-  existing.dayType = dayType;
+      existing.workingHours = workingHours;
+      existing.dayType = dayType;
 
-  await existing.save();
-  return res.json({ success: true, type: "CHECK_OUT", data: existing  });
-  } 
-  else {
-    return res.json({ success: true, type: "CHECK_OUT", data: existing  });
+      await existing.save();
+      return res.json({ success: true, type: "CHECK_OUT", data: existing  });
+    } 
+    else {
+      return res.json({ success: true, type: "CHECK_OUT", data: existing  });
+    }
   }
-}
-   catch (error) {
+  catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }

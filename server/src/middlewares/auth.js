@@ -12,7 +12,6 @@ const jwt = require('jsonwebtoken')
         if (!session) {
             return res.status(401).json({ error: "Unauthorized" });
         }
-        console.log('i am from protect now')
         req.session = session
         next()
     } catch (error) {
@@ -26,7 +25,6 @@ const jwt = require('jsonwebtoken')
      if (req?.session?.role !== "ADMIN") {
         return res.status(403).json({ error: "Admin access required" });
     }
-     console.log( 'i am from get employee',req?.session?.role)
     next()
 }
 

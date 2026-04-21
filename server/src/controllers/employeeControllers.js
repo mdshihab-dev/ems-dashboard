@@ -5,7 +5,6 @@ const User = require("../models/User")
 
 
  const getEmployees =  async (req,res)=>{
-    console.log('i am from get employee for testing',)
     try {
     const {department} = req.query
     const where = {}
